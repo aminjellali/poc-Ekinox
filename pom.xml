@@ -14,10 +14,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>3.0.0-beta2</log4j.version>
         <junit5.version>5.10.2</junit5.version>
-        <jacoco.version>0.8.11</jacoco.version>
+        <jacoco.version>0.8.10</jacoco.version>
+        <jackson.version>2.17.0-rc1</jackson.version>
     </properties>
 
     <dependencies>
+        <!-- Used in test context in order to read json input -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
@@ -30,6 +39,7 @@
             <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Log dependencies -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -44,13 +54,14 @@
 
     <build>
         <plugins>
+            <!-- Jacoco used insure the code coverage of the SDK -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>com.github.saga_pricer.exceptions/**</exclude>
+                        <exclude>**/exceptions/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -81,7 +92,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.70</minimum>
+                                            <minimum>0.9</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
@@ -95,6 +106,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Java doc generator on maven install stage -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
