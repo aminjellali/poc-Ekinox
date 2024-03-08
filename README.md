@@ -18,7 +18,7 @@ This SDK will be easily integrated into your billing system in order to enable y
 ## Through the basics
 ### Design patterns
 ----
-- Strategy pattern: used to change the implementation of different modules on the pricer under package **com.github.saga_pricer.abstractions**
+- Strategy pattern / template pattern: used to change the implementation of different modules on the pricer under package **com.github.saga_pricer.abstractions**
     - BasketParser:  Interface
     - PriceLookup: Interface
     - ReductionComputer: Interface
